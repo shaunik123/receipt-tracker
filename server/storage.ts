@@ -1,38 +1,84 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
+import { db } from "./db";
+import { users, receipts, nudges, type User, type InsertUser, type Receipt, type InsertReceipt, type Nudge, type InsertNudge } from "@shared/schema";
+import { eq, desc } from "drizzle-orm";
 
-// modify the interface with any CRUD methods
-// you might need
+import session from "express-session";
+import createMemoryStore from "memorystore";
+
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
+  getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  sessionStore: session.Store;
+
+  createReceipt(receipt: InsertReceipt & { userId: number, imageUrl: string }): Promise<Receipt>;
+  getReceipts(userId: number): Promise<Receipt[]>;
+  getReceipt(id: number): Promise<Receipt | undefined>;
+  updateReceipt(id: number, updates: Partial<Receipt>): Promise<Receipt>;
+
+  createNudge(nudge: InsertNudge & { userId: number }): Promise<Nudge>;
+  getNudges(userId: number): Promise<Nudge[]>;
+  markNudgeRead(id: number): Promise<Nudge>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+export class DatabaseStorage implements IStorage {
+  sessionStore: session.Store;
 
   constructor() {
-    this.users = new Map();
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000,
+    });
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
+  }
+
+  async createReceipt(receipt: InsertReceipt & { userId: number, imageUrl: string }): Promise<Receipt> {
+    const [newReceipt] = await db.insert(receipts).values(receipt).returning();
+    return newReceipt;
+  }
+
+  async getReceipts(userId: number): Promise<Receipt[]> {
+    return db.select().from(receipts).where(eq(receipts.userId, userId)).orderBy(desc(receipts.createdAt));
+  }
+
+  async getReceipt(id: number): Promise<Receipt | undefined> {
+    const [receipt] = await db.select().from(receipts).where(eq(receipts.id, id));
+    return receipt;
+  }
+
+  async updateReceipt(id: number, updates: Partial<Receipt>): Promise<Receipt> {
+    const [updated] = await db.update(receipts).set(updates).where(eq(receipts.id, id)).returning();
+    return updated;
+  }
+
+  async createNudge(nudge: InsertNudge & { userId: number }): Promise<Nudge> {
+    const [newNudge] = await db.insert(nudges).values(nudge).returning();
+    return newNudge;
+  }
+
+  async getNudges(userId: number): Promise<Nudge[]> {
+    return db.select().from(nudges).where(eq(nudges.userId, userId)).orderBy(desc(nudges.createdAt));
+  }
+
+  async markNudgeRead(id: number): Promise<Nudge> {
+    const [updated] = await db.update(nudges).set({ isRead: true }).where(eq(nudges.id, id)).returning();
+    return updated;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
