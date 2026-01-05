@@ -1,0 +1,360 @@
+Project: Ledgerly – AI Receipt & Spending Assistant
+
+Paste everything below into Cursor as your first prompt.
+
+ROLE
+
+You are a senior full-stack engineer building a production-ready fintech web application.
+
+OBJECTIVE
+
+Build Ledgerly, a secure AI-powered receipt tracking app that:
+
+Allows users to upload receipts
+
+Extracts expense data using OCR
+
+Tracks spending over time
+
+Generates AI insights and behavioral nudges
+
+Uses JWT authentication and MongoDB
+
+The code must be clean, modular, scalable, and readable.
+
+TECH STACK (MANDATORY)
+
+Frontend: Next.js + Tailwind CSS
+
+Backend: Node.js + Express
+
+Auth: JWT + bcrypt
+
+Database: MongoDB (Mongoose)
+
+File upload: Multer
+
+OCR: Tesseract.js
+
+Charts: Recharts or Chart.js
+
+PHASE 1 – PROJECT SETUP
+
+Create frontend and backend folders
+
+Setup environment variables
+
+Configure MongoDB connection
+
+Add basic Express server and health check
+
+Initialize Next.js with Tailwind
+
+⚠️ Do NOT build features yet. Setup only.
+
+PHASE 2 – AUTHENTICATION
+
+User signup & login
+
+Password hashing with bcrypt
+
+JWT creation and verification middleware
+
+Protected routes
+
+Auth context on frontend
+
+PHASE 3 – RECEIPT UPLOAD & OCR
+
+Image upload API using Multer
+
+OCR pipeline using Tesseract.js
+
+Extract raw text from receipt
+
+Save image and OCR text
+
+PHASE 4 – AI DATA EXTRACTION
+
+From OCR text, extract:
+
+Merchant name
+
+Total amount
+
+Date
+
+Tax (if present)
+
+Currency
+
+Category (AI or rules-based)
+
+Store structured data in MongoDB.
+
+PHASE 5 – EXPENSE DASHBOARD
+
+Expense list per user
+
+Monthly totals
+
+Category-wise breakdown
+
+Charts and tables
+
+Recent transactions
+
+PHASE 6 – AI INSIGHTS ENGINE
+
+Create an insights service that:
+
+Compares month-over-month spending
+
+Detects category spikes
+
+Finds overspending patterns
+
+Identifies frequent merchants
+
+Generate human-readable insight messages.
+
+PHASE 7 – NUDGES & ALERTS
+
+Budget thresholds (75%, 100%)
+
+Anomaly detection
+
+Positive reinforcement nudges
+
+Store alerts in DB
+
+Show alerts in dashboard
+
+PHASE 8 – UI & UX
+
+Receipt upload UI
+
+Insights feed
+
+Alert badges
+
+Dark mode
+
+Mobile responsiveness
+
+PHASE 9 – SECURITY & POLISH
+
+Input validation
+
+Rate limiting
+
+Image size limits
+
+Error handling
+
+Loading states
+
+PHASE 10 – DEPLOYMENT
+
+Frontend: Vercel
+
+make this as a mobile app
+
+Perfect — turning Ledgerly into a mobile app is actually the right move for a receipt product 📱
+Below are two things exactly:
+
+1️⃣ Cursor-optimized prompt for a MOBILE APP
+2️⃣ A clear mobile-first roadmap (what to build, in what order, and why)
+
+This is production-grade, not a toy app.
+
+🧠 CURSOR MASTER PROMPT (MOBILE APP)
+Project: Ledgerly Mobile – AI Receipt & Spending Assistant
+
+Paste this entire prompt into Cursor as your main instruction.
+
+ROLE
+
+You are a senior mobile + backend engineer building a cross-platform mobile application with a scalable backend.
+
+OBJECTIVE
+
+Build Ledgerly Mobile, an AI-powered receipt tracking mobile app that:
+
+Works on Android & iOS
+
+Lets users scan or upload receipts
+
+Extracts expense data using OCR
+
+Tracks spending automatically
+
+Provides AI-driven insights and nudges
+
+Uses JWT authentication
+
+Stores data securely in MongoDB
+
+The app should feel like a personal finance assistant, not a spreadsheet.
+
+TECH STACK (MANDATORY)
+Mobile App
+
+React Native (Expo)
+
+TypeScript
+
+Expo Camera & Image Picker
+
+React Navigation
+
+Axios
+
+Backend
+
+Node.js + Express
+
+JWT authentication
+
+bcrypt for password hashing
+
+Multer for image uploads
+
+OCR using Tesseract.js
+
+Database
+
+MongoDB (Mongoose)
+
+PHASE 1 – PROJECT SETUP
+
+Initialize Expo React Native app
+
+Setup backend Express server
+
+Configure MongoDB connection
+
+Environment variables
+
+Health-check API
+
+⚠️ No features yet. Setup only.
+
+PHASE 2 – AUTHENTICATION (MOBILE-FIRST)
+
+Signup & login screens
+
+Password hashing with bcrypt
+
+JWT token generation
+
+Secure token storage (AsyncStorage)
+
+Auth-protected API routes
+
+PHASE 3 – RECEIPT SCANNING
+
+Camera-based receipt capture
+
+Gallery upload option
+
+Image compression
+
+Upload image to backend
+
+Store image securely
+
+PHASE 4 – OCR & DATA EXTRACTION
+
+Run OCR using Tesseract.js
+
+Extract raw receipt text
+
+Parse:
+
+Total amount
+
+Merchant name
+
+Date
+
+Tax (if available)
+
+Auto-categorize expense
+
+Store structured data in MongoDB
+
+PHASE 5 – EXPENSE TRACKING
+
+Expense history screen
+
+Monthly totals
+
+Category-wise breakdown
+
+Search & filter expenses
+
+PHASE 6 – AI INSIGHTS ENGINE
+
+Build a service that:
+
+Compares current vs previous month
+
+Detects spending spikes
+
+Identifies dominant categories
+
+Finds repeated merchants
+
+Generates human-readable insights
+
+Example:
+“You spent 27% more on food this month.”
+
+PHASE 7 – SMART NUDGES & ALERTS
+
+Budget threshold nudges (75%, 100%)
+
+Anomaly detection
+
+Positive reinforcement nudges
+
+Store alerts in DB
+
+Display alerts in app
+
+Optional push notification support
+
+PHASE 8 – MOBILE UI / UX
+
+Clean fintech-style UI
+
+Bottom tab navigation
+
+Smooth animations
+
+Dark mode
+
+Pull-to-refresh
+
+Loading skeletons
+
+PHASE 9 – SECURITY & OPTIMIZATION
+
+Input validation
+
+Rate limiting
+
+Image size limits
+
+Token expiry handling
+
+Error handling
+
+PHASE 10 – DEPLOYMENT
+
+Backend: Render / Railway
+
+Database: MongoDB Atlas
+
+Mobile App: Expo build (APK / TestFlight)
