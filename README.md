@@ -1,79 +1,53 @@
-🧾 LedgerlyAI – Smart Receipt Tracker
+## 🧾 LedgerlyAI – Smart Receipt Tracker
 
 LedgerlyAI is an AI-powered receipt tracking application designed to help individuals and businesses effortlessly manage, organize, and analyze their expenses. Simply upload receipts, and LedgerlyAI extracts key details, categorizes spending, and keeps your finances organized in one place.
 
-🚀 Features
+## 🚀 Features
 
-📸 Receipt Upload & Scanning
+- 📸 Receipt Upload & Scanning
 Upload images or PDFs of receipts for instant processing.
 
-🤖 AI-Powered Data Extraction
+- 🤖 AI-Powered Data Extraction
 Automatically extracts merchant name, date, total amount, and line items.
 
-📊 Expense Categorization
+- 📊 Expense Categorization
 Smart categorization for better expense insights.
 
-🔍 Search & Filter
+- 🔍 Search & Filter
 Quickly find receipts by date, merchant, or category.
 
-☁️ Cloud-Based Storage
+- ☁️ Cloud-Based Storage
 Access your receipts anytime, anywhere.
 
-🛠 Tech Stack
+## 🛠 Tech Stack
 
-Frontend: HTML, CSS, JavaScript (or React if applicable)
+- Frontend: HTML, CSS, JavaScript (or React if applicable)
+- Backend: Node.js / Python (update based on your app)
+- AI/OCR: AI-based text extraction
+- Hosting: Replit
+- Version Control: GitHub
 
-Backend: Node.js / Python (update based on your app)
+## 📦 Installation & Setup
 
-AI/OCR: AI-based text extraction
 
-Hosting: Replit
+- Run Locally
+1. git clone https://github.com/your-username/ledgerlyai.git
+2. cd ledgerlyai
+3. npm install   # or pip install -r requirements.txt
+4. npm start     # or python main.py
 
-Version Control: GitHub
 
-📦 Installation & Setup
-Run on Replit
+## 🔒 Security & Privacy
 
-Open the Repl
+- Receipts are processed securely
+- No data is shared with third parties
+- Designed with privacy-first principles
 
-Click Run
+## 🌱 Future Enhancements
 
-Start uploading receipts 🚀
+- 📈 Expense analytics & dashboards
+- 📤 Export to Excel / CSV
+- 🔗 Bank & accounting software integrations
 
-Run Locally
-git clone https://github.com/your-username/ledgerlyai.git
-cd ledgerlyai
-npm install   # or pip install -r requirements.txt
-npm start     # or python main.py
-
-📂 Project Structure
-ledgerlyai/
-├── assets/
-│   └── logo.png
-├── frontend/
-├── backend/
-├── README.md
-└── package.json / requirements.txt
-
-🔒 Security & Privacy
-
-Receipts are processed securely
-
-No data is shared with third parties
-
-Designed with privacy-first principles
-
-🌱 Future Enhancements
-
-📈 Expense analytics & dashboards
-
-🧾 GST/VAT extraction
-
-📤 Export to Excel / CSV
-
-🔗 Bank & accounting software integrations
-
-👨‍💻 Author
-
+## 👨‍💻 Author
 Shaunik Virdi
-Computer Science Student | Builder | AI Enthusiast
