@@ -3,9 +3,10 @@ import { users, receipts, nudges, type User, type InsertUser, type Receipt, type
 import { eq, desc } from "drizzle-orm";
 
 import session from "express-session";
-import createMemoryStore from "memorystore";
+import connectPg from "connect-pg-simple";
+import { pool } from "./db";
 
-const MemoryStore = createMemoryStore(session);
+const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -27,8 +28,10 @@ export class DatabaseStorage implements IStorage {
   sessionStore: session.Store;
 
   constructor() {
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 86400000,
+    this.sessionStore = new PostgresSessionStore({
+      pool,
+      tableName: "session",
+      createTableIfMissing: true,
     });
   }
 
