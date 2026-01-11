@@ -1,17 +1,53 @@
 import { useUser, useLogout } from "@/hooks/use-auth";
 import { BottomNav } from "@/components/BottomNav";
-import { User, Settings, LogOut, Shield, CreditCard, ChevronRight, Moon, Sun, Bell } from "lucide-react";
+import { User, Settings, LogOut, Shield, CreditCard, ChevronRight, Moon, Sun, Bell, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
 
 export default function Profile() {
   const { data: user } = useUser();
   const logoutMutation = useLogout();
   const { toast } = useToast();
   const [activeDialog, setActiveDialog] = useState<string | null>(null);
+  const { theme, setTheme } = useTheme();
+  
+  // Password change state
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast({
+        title: "Error",
+        description: "New passwords do not match",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsChangingPassword(true);
+    // Mock API call
+    setTimeout(() => {
+      setIsChangingPassword(false);
+      setActiveDialog(null);
+      setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      toast({
+        title: "Success",
+        description: "Password has been updated successfully",
+      });
+    }, 1500);
+  };
 
   const menuItems = [
     { id: "preferences", icon: Settings, label: "Preferences" },
@@ -67,10 +103,14 @@ export default function Profile() {
           <div className="space-y-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Moon className="w-5 h-5 text-primary" />
+                {theme === "dark" ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-primary" />}
                 <Label htmlFor="dark-mode">Dark Mode</Label>
               </div>
-              <Switch id="dark-mode" defaultChecked />
+              <Switch 
+                id="dark-mode" 
+                checked={theme === "dark"} 
+                onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+              />
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -113,7 +153,7 @@ export default function Profile() {
           <div className="space-y-4 py-4">
             <button 
               className="w-full p-4 bg-white/5 rounded-xl border border-white/5 text-left font-medium flex items-center justify-between"
-              onClick={() => toast({ title: "Coming Soon", description: "Password change feature coming soon." })}
+              onClick={() => setActiveDialog("change-password")}
             >
               Change Password
               <ChevronRight className="w-4 h-4 text-muted-foreground" />
@@ -126,6 +166,51 @@ export default function Profile() {
               <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Change Password Dialog */}
+      <Dialog open={activeDialog === "change-password"} onOpenChange={() => setActiveDialog("security")}>
+        <DialogContent className="max-w-md mx-auto w-[90%] rounded-3xl border-white/10 glass">
+          <DialogHeader>
+            <DialogTitle>Change Password</DialogTitle>
+            <DialogDescription>Enter your current and new password</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handlePasswordChange} className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="current">Current Password</Label>
+              <Input 
+                id="current" 
+                type="password" 
+                required 
+                value={passwordData.currentPassword}
+                onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="new">New Password</Label>
+              <Input 
+                id="new" 
+                type="password" 
+                required 
+                value={passwordData.newPassword}
+                onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm">Confirm New Password</Label>
+              <Input 
+                id="confirm" 
+                type="password" 
+                required 
+                value={passwordData.confirmPassword}
+                onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+              />
+            </div>
+            <Button type="submit" className="w-full mt-2" disabled={isChangingPassword}>
+              {isChangingPassword ? "Updating..." : "Update Password"}
+            </Button>
+          </form>
         </DialogContent>
       </Dialog>
 

@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { useUser } from "@/hooks/use-auth";
+import { ThemeProvider } from "next-themes";
 
 // Pages
 import AuthPage from "@/pages/Auth";
@@ -59,8 +60,10 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster />
-      <Router />
+      <ThemeProvider attribute="class" defaultTheme="dark">
+        <Toaster />
+        <Router />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
