@@ -9,7 +9,7 @@ export default function Insights() {
   const { data, isLoading } = useInsights();
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-32">
       <div className="max-w-md mx-auto p-6">
         <header className="mb-6">
           <h1 className="text-2xl font-display font-bold text-foreground">Insights</h1>
