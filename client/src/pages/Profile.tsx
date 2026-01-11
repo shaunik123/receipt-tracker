@@ -22,7 +22,7 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-32">
+    <div className="min-h-screen bg-background pb-40">
       <div className="max-w-md mx-auto p-6">
         <header className="mb-8 text-center">
           <div className="w-24 h-24 mx-auto bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl shadow-blue-600/20 mb-4">

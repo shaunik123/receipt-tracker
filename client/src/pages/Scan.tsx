@@ -42,7 +42,7 @@ export default function Scan() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-32">
+    <div className="min-h-screen bg-background pb-40">
       <div className="max-w-md mx-auto p-6 h-[calc(100vh-6rem)] flex flex-col">
         <header className="mb-6">
           <h1 className="text-2xl font-display font-bold text-foreground">Scan Receipt</h1>
