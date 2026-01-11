@@ -1,20 +1,26 @@
 import { useReceipts } from "@/hooks/use-receipts";
 import { ReceiptCard } from "@/components/ReceiptCard";
 import { BottomNav } from "@/components/BottomNav";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, X, Receipt as ReceiptIcon } from "lucide-react";
 import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Receipt } from "@shared/routes";
+import { format } from "date-fns";
 
 export default function Expenses() {
   const { data: receipts, isLoading } = useReceipts();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
 
   const filteredReceipts = receipts?.filter(r => 
     r.merchantName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
     r.amount?.toString().includes(searchTerm)
   );
 
+  const items = selectedReceipt?.items as any[] || [];
+
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-32">
       <div className="max-w-md mx-auto p-6">
         <header className="mb-6">
           <h1 className="text-2xl font-display font-bold text-foreground mb-4">Expenses</h1>
@@ -51,11 +57,74 @@ export default function Expenses() {
             </div>
           ) : (
             filteredReceipts?.map((receipt) => (
-              <ReceiptCard key={receipt.id} receipt={receipt} />
+              <ReceiptCard 
+                key={receipt.id} 
+                receipt={receipt} 
+                onClick={() => setSelectedReceipt(receipt)}
+              />
             ))
           )}
         </div>
       </div>
+
+      <Dialog open={!!selectedReceipt} onOpenChange={() => setSelectedReceipt(null)}>
+        <DialogContent className="max-w-md mx-auto w-[90%] rounded-3xl border-white/10 glass">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 font-display">
+              <ReceiptIcon className="w-5 h-5 text-primary" />
+              Expense Details
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedReceipt && (
+            <div className="space-y-6 py-4">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold">{selectedReceipt.merchantName}</h2>
+                <p className="text-muted-foreground text-sm">
+                  {selectedReceipt.date ? format(new Date(selectedReceipt.date), "MMMM d, yyyy") : "Date pending"}
+                </p>
+                <div className="mt-2 text-3xl font-bold tracking-tight text-primary">
+                  ${selectedReceipt.amount?.toFixed(2)}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground px-1">Breakdown</h3>
+                <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/5">
+                  {items.length > 0 ? (
+                    items.map((item, idx) => (
+                      <div 
+                        key={idx} 
+                        className="flex justify-between items-center p-4 border-b border-white/5 last:border-0"
+                      >
+                        <div className="flex flex-col">
+                          <span className="font-medium">{item.name}</span>
+                          <span className="text-xs text-muted-foreground">Qty: {item.quantity || 1}</span>
+                        </div>
+                        <span className="font-semibold">${(Number(item.price) * (item.quantity || 1)).toFixed(2)}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-8 text-center text-muted-foreground italic">
+                      Detailed item list not available for this receipt.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {selectedReceipt.category && (
+                <div className="flex justify-between items-center px-1">
+                  <span className="text-sm text-muted-foreground">Category</span>
+                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+                    {selectedReceipt.category}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <BottomNav />
     </div>
   );

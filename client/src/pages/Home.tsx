@@ -19,7 +19,7 @@ export default function Home() {
   const unreadNudges = nudges?.filter(n => !n.isRead) || [];
 
   return (
-    <div className="min-h-screen bg-background pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-background pb-32 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
       
