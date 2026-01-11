@@ -120,11 +120,30 @@ export default function Profile() {
             </button>
             <button 
               className="w-full p-4 bg-white/5 rounded-xl border border-white/5 text-left font-medium flex items-center justify-between"
-              onClick={() => toast({ title: "Coming Soon", description: "Privacy settings coming soon." })}
+              onClick={() => setActiveDialog("policy")}
             >
-              Privacy Policy
+              Security Policy
               <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Security Policy Dialog */}
+      <Dialog open={activeDialog === "policy"} onOpenChange={() => setActiveDialog("security")}>
+        <DialogContent className="max-w-md mx-auto w-[90%] h-[80vh] rounded-3xl border-white/10 glass overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Security Policy</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4 text-sm text-muted-foreground">
+            <h4 className="font-bold text-foreground">1. Data Encryption</h4>
+            <p>All sensitive data is encrypted at rest and in transit using industry-standard protocols.</p>
+            <h4 className="font-bold text-foreground">2. Account Security</h4>
+            <p>We use session-based authentication with secure cookie handling to protect your account.</p>
+            <h4 className="font-bold text-foreground">3. Privacy</h4>
+            <p>Your receipt data is only used for your own analysis and insights generation.</p>
+            <h4 className="font-bold text-foreground">4. Regular Audits</h4>
+            <p>We perform regular security checks to ensure your financial data remains safe.</p>
           </div>
         </DialogContent>
       </Dialog>
