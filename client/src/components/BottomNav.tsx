@@ -23,7 +23,6 @@ export function BottomNav() {
               <div
                 className={cn(
                   "flex flex-col items-center justify-center gap-1 cursor-pointer transition-all duration-300",
-                  item.isPrimary ? "-mt-8" : "",
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -31,18 +30,16 @@ export function BottomNav() {
                   className={cn(
                     "flex items-center justify-center transition-all duration-300",
                     item.isPrimary
-                      ? "w-14 h-14 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30 text-white"
+                      ? "w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30 text-white"
                       : "w-8 h-8",
                     isActive && !item.isPrimary && "text-primary"
                   )}
                 >
-                  <item.icon className={cn(item.isPrimary ? "w-7 h-7" : "w-5 h-5")} />
+                  <item.icon className={cn(item.isPrimary ? "w-6 h-6" : "w-5 h-5")} />
                 </div>
-                {!item.isPrimary && (
-                  <span className="text-[10px] font-medium tracking-wide">
-                    {item.label}
-                  </span>
-                )}
+                <span className="text-[10px] font-medium tracking-wide">
+                  {item.label}
+                </span>
               </div>
             </Link>
           );
