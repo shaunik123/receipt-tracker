@@ -21,18 +21,17 @@ Access your receipts anytime, anywhere.
 
 ## 🛠 Tech Stack
 
-- Frontend: HTML, CSS, JavaScript (or React if applicable)
-- Backend: Node.js / Python (update based on your app)
-- AI/OCR: AI-based text extraction
-- Hosting: Replit
+- Frontend: React.js, Typescript, Tailwind CSS, Wouter
+- Backend: Node.js, Express.js
+- AI/OCR: OpenAI
+- Hosting: Vercel
 - Version Control: GitHub
 
 ## 📦 Installation & Setup
 
-
 - Run Locally
-1. git clone https://github.com/your-username/ledgerlyai.git
-2. cd ledgerlyai
+1. git clone https://github.com/your-username/receipt-tracker.git
+2. cd receipt-tracker
 3. npm install   # or pip install -r requirements.txt
 4. npm start     # or python main.py
 
