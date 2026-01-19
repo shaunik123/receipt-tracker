@@ -14,6 +14,7 @@ export async function analyzeReceipt(imageUrl: string): Promise<{
   category?: string;
   items?: { name: string; price: number }[];
   rawText?: string;
+  currency?: string;
 }> {
   try {
     const response = await openai.chat.completions.create({
@@ -22,7 +23,7 @@ export async function analyzeReceipt(imageUrl: string): Promise<{
         {
           role: "user",
           content: [
-            { type: "text", text: "Analyze this receipt image. Extract the merchant name, total amount, date, category (e.g., Food, Transport, Utilities), and a list of items with their prices. Return the result as a JSON object." },
+            { type: "text", text: "Analyze this receipt image. Extract the merchant name, total amount, date, category (e.g., Food, Transport, Utilities), a list of items with their prices, and the currency code (e.g., USD, EUR, GBP, JPY). Return the result as a JSON object." },
             {
               type: "image_url",
               image_url: {
@@ -45,7 +46,8 @@ export async function analyzeReceipt(imageUrl: string): Promise<{
       date: data.date,
       category: data.category,
       items: data.items || [],
-      rawText: JSON.stringify(data), // For now store the full JSON as raw text backup
+      rawText: JSON.stringify(data),
+      currency: data.currency || "USD",
     };
   } catch (error) {
     console.error("OpenAI Receipt Analysis Error:", error);

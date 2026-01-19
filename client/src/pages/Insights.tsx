@@ -13,7 +13,7 @@ export default function Insights() {
       <div className="max-w-md mx-auto p-6">
         <header className="mb-6">
           <h1 className="text-2xl font-display font-bold text-foreground">Insights</h1>
-          <p className="text-sm text-muted-foreground">Monthly spending analysis</p>
+          <p className="text-sm text-muted-foreground">Monthly spending analysis (in USD)</p>
         </header>
 
         {isLoading ? (

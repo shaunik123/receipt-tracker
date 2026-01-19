@@ -95,12 +95,12 @@ export async function registerRoutes(
     if (!req.isAuthenticated()) return res.sendStatus(401);
     
     const receipts = await storage.getReceipts(req.user!.id);
-    const monthlyTotal = receipts.reduce((sum, r) => sum + (r.amount || 0), 0);
+    const monthlyTotal = receipts.reduce((sum, r) => sum + (r.amountInUsd || r.amount || 0), 0);
     
     const categoryMap = new Map<string, number>();
     receipts.forEach(r => {
       const cat = r.category || "Uncategorized";
-      categoryMap.set(cat, (categoryMap.get(cat) || 0) + (r.amount || 0));
+      categoryMap.set(cat, (categoryMap.get(cat) || 0) + (r.amountInUsd || r.amount || 0));
     });
     
     const categoryBreakdown = Array.from(categoryMap.entries()).map(([category, amount]) => ({
