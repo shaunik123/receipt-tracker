@@ -38,9 +38,29 @@ export async function registerRoutes(
       // We'll await for better UX in MVP
       const analysis = await analyzeReceipt(dataURI);
       
+      // Multi-currency support
+      const currency = analysis.currency || "USD";
+      const amount = analysis.amount || 0;
+      let amountInUsd = amount;
+
+      if (currency !== "USD") {
+        try {
+          const exchangeRes = await fetch(`https://open.er-api.com/v6/latest/USD`);
+          const exchangeData = await exchangeRes.json();
+          const rate = exchangeData.rates[currency];
+          if (rate) {
+            amountInUsd = amount / rate;
+          }
+        } catch (err) {
+          console.error("Exchange rate fetch failed:", err);
+        }
+      }
+      
       const updated = await storage.updateReceipt(receipt.id, {
         merchantName: analysis.merchantName || "Unknown Merchant",
-        amount: analysis.amount || 0,
+        amount: amount,
+        amountInUsd: amountInUsd,
+        currency: currency,
         date: analysis.date ? new Date(analysis.date) : new Date(),
         category: analysis.category || "Uncategorized",
         items: analysis.items || [],

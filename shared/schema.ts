@@ -17,6 +17,8 @@ export const receipts = pgTable("receipts", {
   amount: doublePrecision("amount"),
   date: timestamp("date"),
   category: text("category"),
+  currency: text("currency").notNull().default("USD"),
+  amountInUsd: doublePrecision("amount_in_usd"),
   items: jsonb("items").$type<{ name: string; price: number }[]>(),
   rawText: text("raw_text"),
   status: text("status").notNull().default("processing"), // processing, completed, failed

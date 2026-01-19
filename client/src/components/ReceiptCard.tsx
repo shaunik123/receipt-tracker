@@ -46,7 +46,14 @@ export function ReceiptCard({ receipt, onClick }: ReceiptCardProps) {
 
       <div className="text-right">
         <div className="font-black text-foreground text-xl tracking-tighter font-display mb-1">
-          ${receipt.amount?.toFixed(2) ?? "0.00"}
+          {receipt.currency !== "USD" ? (
+            <div className="flex flex-col items-end">
+              <span>{receipt.amount?.toFixed(2)} {receipt.currency}</span>
+              <span className="text-[10px] text-muted-foreground font-bold">≈ ${receipt.amountInUsd?.toFixed(2)} USD</span>
+            </div>
+          ) : (
+            `$${receipt.amount?.toFixed(2) ?? "0.00"}`
+          )}
         </div>
         <div className={`text-[10px] font-black uppercase tracking-widest flex items-center justify-end gap-1 ${statusColor[receipt.status as keyof typeof statusColor]}`}>
           <StatusIcon className="w-2.5 h-2.5" />

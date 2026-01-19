@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   // Simple calculation for display (in real app, use stats endpoint)
-  const totalSpent = receipts?.reduce((acc, r) => acc + (r.amount || 0), 0) || 0;
+  const totalSpent = receipts?.reduce((acc, r) => acc + (r.amountInUsd || r.amount || 0), 0) || 0;
   const recentReceipts = receipts?.slice(0, 5) || [];
   const unreadNudges = nudges?.filter(n => !n.isRead) || [];
 
