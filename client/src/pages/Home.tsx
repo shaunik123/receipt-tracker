@@ -4,19 +4,27 @@ import { useUser } from "@/hooks/use-auth";
 import { ReceiptCard } from "@/components/ReceiptCard";
 import { NudgeAlert } from "@/components/NudgeAlert";
 import { BottomNav } from "@/components/BottomNav";
-import { Loader2, TrendingUp, ArrowUpRight } from "lucide-react";
+import { Loader2, TrendingUp, ArrowUpRight, RefreshCcw } from "lucide-react";
 import { motion } from "framer-motion";
+import { queryClient } from "@/lib/queryClient";
 
 export default function Home() {
   const { data: user } = useUser();
-  const { data: receipts, isLoading: loadingReceipts } = useReceipts();
-  const { data: nudges, isLoading: loadingNudges } = useNudges();
+  const { data: receipts, isLoading: loadingReceipts, isRefetching: refetchingReceipts } = useReceipts();
+  const { data: nudges, isLoading: loadingNudges, isRefetching: refetchingNudges } = useNudges();
   const markReadMutation = useMarkNudgeRead();
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ["/api/receipts"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/nudges"] });
+  };
 
   // Simple calculation for display (in real app, use stats endpoint)
   const totalSpent = receipts?.reduce((acc, r) => acc + (r.amount || 0), 0) || 0;
   const recentReceipts = receipts?.slice(0, 5) || [];
   const unreadNudges = nudges?.filter(n => !n.isRead) || [];
+
+  const isRefreshing = refetchingReceipts || refetchingNudges;
 
   return (
     <div className="min-h-screen bg-background pb-40 relative overflow-hidden">
@@ -26,15 +34,24 @@ export default function Home() {
       <div className="max-w-md mx-auto p-6 relative z-10">
         {/* Header */}
         <header className="flex justify-between items-center mb-8">
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">Welcome back,</p>
-            <h1 className="text-2xl font-display font-bold text-foreground">
-              {user?.username}
-            </h1>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-lg">
+              {user?.username?.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">Welcome back,</p>
+              <h1 className="text-xl font-display font-bold text-foreground">
+                {user?.username}
+              </h1>
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-lg">
-            {user?.username?.charAt(0).toUpperCase()}
-          </div>
+          <button 
+            onClick={handleRefresh}
+            disabled={loadingReceipts || isRefreshing}
+            className="p-2 rounded-xl bg-card border border-white/5 text-muted-foreground hover:text-foreground transition-all active:rotate-180 disabled:opacity-50"
+          >
+            <RefreshCcw className={`w-5 h-5 ${isRefreshing ? "animate-spin" : ""}`} />
+          </button>
         </header>
 
         {/* Total Balance Card */}

@@ -1,14 +1,15 @@
 import { useReceipts } from "@/hooks/use-receipts";
 import { ReceiptCard } from "@/components/ReceiptCard";
 import { BottomNav } from "@/components/BottomNav";
-import { Search, SlidersHorizontal, X, Receipt as ReceiptIcon } from "lucide-react";
+import { Search, SlidersHorizontal, RefreshCcw, Receipt as ReceiptIcon } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Receipt } from "@shared/routes";
 import { format } from "date-fns";
+import { queryClient } from "@/lib/queryClient";
 
 export default function Expenses() {
-  const { data: receipts, isLoading } = useReceipts();
+  const { data: receipts, isLoading, isRefetching } = useReceipts();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
 
@@ -17,13 +18,26 @@ export default function Expenses() {
     r.amount?.toString().includes(searchTerm)
   );
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ["/api/receipts"] });
+  };
+
   const items = selectedReceipt?.items as any[] || [];
 
   return (
     <div className="min-h-screen bg-background pb-40">
       <div className="max-w-md mx-auto p-6">
         <header className="mb-6">
-          <h1 className="text-2xl font-display font-bold text-foreground mb-4">Expenses</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl font-display font-bold text-foreground">Expenses</h1>
+            <button 
+              onClick={handleRefresh}
+              disabled={isLoading || isRefetching}
+              className="p-2 rounded-xl bg-card border border-white/5 text-muted-foreground hover:text-foreground transition-all active:rotate-180 disabled:opacity-50"
+            >
+              <RefreshCcw className={`w-5 h-5 ${isRefetching ? "animate-spin" : ""}`} />
+            </button>
+          </div>
           
           <div className="flex gap-3">
             <div className="relative flex-1">
