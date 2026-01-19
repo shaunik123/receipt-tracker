@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Home, Camera, PieChart, User, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export function BottomNav() {
   const [location] = useLocation();
