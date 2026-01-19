@@ -29,18 +29,21 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background pb-40 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
       
       <div className="max-w-md mx-auto p-6 relative z-10">
         {/* Header */}
-        <header className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-lg">
-              {user?.username?.charAt(0).toUpperCase()}
+        <header className="flex justify-between items-center mb-10">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 p-[1px]">
+              <div className="w-full h-full rounded-[15px] bg-background flex items-center justify-center text-white font-black text-xl">
+                {user?.username?.charAt(0).toUpperCase()}
+              </div>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground mb-1">Welcome back,</p>
-              <h1 className="text-xl font-display font-bold text-foreground">
+              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-[0.2em] mb-0.5">Welcome</p>
+              <h1 className="text-2xl font-display font-black text-foreground tracking-tight">
                 {user?.username}
               </h1>
             </div>
@@ -48,7 +51,7 @@ export default function Home() {
           <button 
             onClick={handleRefresh}
             disabled={loadingReceipts || isRefreshing}
-            className="p-2 rounded-xl bg-card border border-white/5 text-muted-foreground hover:text-foreground transition-all active:rotate-180 disabled:opacity-50"
+            className="w-12 h-12 rounded-2xl bg-card border border-white/5 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all active:rotate-180 disabled:opacity-50 hover-elevate"
           >
             <RefreshCcw className={`w-5 h-5 ${isRefreshing ? "animate-spin" : ""}`} />
           </button>
@@ -56,18 +59,21 @@ export default function Home() {
 
         {/* Total Balance Card */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 shadow-xl shadow-blue-500/20 mb-8 relative overflow-hidden"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-700 rounded-[2.5rem] p-8 shadow-2xl shadow-blue-500/20 mb-10 relative overflow-hidden group active-elevate-2"
         >
-          <div className="absolute right-0 top-0 w-32 h-32 bg-white/5 rounded-full blur-2xl translate-x-10 -translate-y-10" />
-          <p className="text-blue-100/80 text-sm font-medium mb-1">Total Spending</p>
-          <h2 className="text-4xl font-display font-bold text-white mb-4">
+          <div className="absolute right-0 top-0 w-48 h-48 bg-white/10 rounded-full blur-3xl translate-x-10 -translate-y-10 group-hover:scale-110 transition-transform duration-700" />
+          <p className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">Monthly Spending</p>
+          <h2 className="text-5xl font-display font-black text-white mb-6 tracking-tighter">
             ${totalSpent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </h2>
-          <div className="flex items-center gap-2 text-emerald-300 text-sm bg-black/20 w-fit px-3 py-1.5 rounded-lg backdrop-blur-sm border border-white/5">
-            <TrendingUp className="w-4 h-4" />
-            <span>+12.5% from last month</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-emerald-300 text-[11px] font-bold bg-black/20 px-3 py-2 rounded-xl backdrop-blur-md border border-white/5">
+              <TrendingUp className="w-3.5 h-3.5" />
+              <span>+12.5%</span>
+            </div>
+            <div className="text-white/40 text-[10px] font-bold uppercase tracking-widest">vs Last Month</div>
           </div>
         </motion.div>
 

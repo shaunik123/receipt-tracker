@@ -23,45 +23,53 @@ export default function Insights() {
         ) : (
           <div className="space-y-8">
             {/* Category Chart */}
-            <div className="bg-card rounded-3xl p-6 border border-white/5">
-              <h3 className="font-semibold mb-6">Spending by Category</h3>
-              <div className="h-64 relative">
+            <div className="bg-card/50 rounded-[2.5rem] p-8 border border-white/5 shadow-2xl relative overflow-hidden group">
+              <div className="absolute -right-10 -top-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000" />
+              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-8">Spending Analysis</h3>
+              <div className="h-64 relative mb-8">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={data?.categoryBreakdown}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={5}
+                      innerRadius={70}
+                      outerRadius={95}
+                      paddingAngle={8}
                       dataKey="amount"
+                      stroke="none"
                     >
                       {data?.categoryBreakdown.map((_, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={COLORS[index % COLORS.length]} 
+                          className="hover:opacity-80 transition-opacity cursor-pointer"
+                        />
                       ))}
                     </Pie>
                     <Tooltip 
-                      contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px' }}
-                      itemStyle={{ color: '#fff' }}
+                      contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '12px 16px' }}
+                      itemStyle={{ color: '#fff', fontWeight: 'bold' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
                 {/* Center text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-xs text-muted-foreground">Total</span>
-                  <span className="text-xl font-bold font-display">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Total</span>
+                  <span className="text-3xl font-black font-display tracking-tighter">
                     ${data?.monthlyTotal.toLocaleString()}
                   </span>
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-3 mt-4">
+              <div className="grid grid-cols-2 gap-4">
                 {data?.categoryBreakdown.map((cat, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                    <span className="truncate flex-1 text-muted-foreground">{cat.category}</span>
-                    <span className="font-medium">{Math.round((cat.amount / (data.monthlyTotal || 1)) * 100)}%</span>
+                  <div key={i} className="flex flex-col gap-1 p-3 rounded-2xl bg-white/5 border border-white/5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)]" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                      <span className="truncate text-[10px] font-black uppercase tracking-wider text-muted-foreground">{cat.category}</span>
+                    </div>
+                    <span className="text-sm font-black tracking-tight">${cat.amount.toLocaleString()}</span>
                   </div>
                 ))}
               </div>

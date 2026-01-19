@@ -14,30 +14,36 @@ export function BottomNav() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 glass border-t border-white/5 pb-[env(safe-area-inset-bottom,2rem)] z-50">
-      <div className="flex justify-around items-center h-16 max-w-md mx-auto px-2">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-2.5rem)] max-w-md z-50">
+      <div className="glass rounded-[2rem] border border-white/10 shadow-2xl shadow-black/50 px-2 py-2 flex justify-around items-center">
         {navItems.map((item) => {
           const isActive = location === item.href;
           return (
-            <Link key={item.href} href={item.href} className="flex-1">
+            <Link key={item.href} href={item.href} className="flex-1 px-1">
               <div
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 cursor-pointer transition-all duration-300",
+                  "flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-500 py-3 rounded-2xl relative group",
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 )}
               >
+                {isActive && (
+                  <motion.div 
+                    layoutId="nav-active"
+                    className="absolute inset-0 bg-primary/10 rounded-2xl -z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
                 <div
                   className={cn(
-                    "flex items-center justify-center transition-all duration-300",
+                    "flex items-center justify-center transition-all duration-500",
                     item.isPrimary
-                      ? "w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30 text-white"
-                      : "w-8 h-8",
-                    isActive && !item.isPrimary && "text-primary"
+                      ? "w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30 text-white"
+                      : "w-6 h-6 group-hover:scale-110"
                   )}
                 >
-                  <item.icon className={cn(item.isPrimary ? "w-6 h-6" : "w-5 h-5")} />
+                  <item.icon className={cn(item.isPrimary ? "w-6 h-6" : "w-4.5 h-4.5")} />
                 </div>
-                <span className="text-[10px] font-medium tracking-wide">
+                <span className="text-[9px] font-black uppercase tracking-widest leading-none">
                   {item.label}
                 </span>
               </div>

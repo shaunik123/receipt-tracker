@@ -23,28 +23,34 @@ export function ReceiptCard({ receipt, onClick }: ReceiptCardProps) {
   return (
     <div 
       onClick={onClick}
-      className="bg-card hover:bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center gap-4 transition-all active:scale-[0.98] cursor-pointer"
+      className="bg-card/50 hover:bg-white/5 border border-white/5 rounded-[2rem] p-5 flex items-center gap-5 transition-all active:scale-[0.98] cursor-pointer group hover-elevate"
     >
-      <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
-        <ShoppingBag className="w-6 h-6" />
+      <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/10 flex items-center justify-center text-blue-400 shrink-0 group-hover:scale-110 transition-transform duration-500">
+        <ShoppingBag className="w-7 h-7" />
       </div>
       
       <div className="flex-1 min-w-0">
-        <h4 className="font-semibold text-foreground truncate">
+        <h4 className="font-bold text-foreground truncate text-base leading-tight mb-1">
           {receipt.merchantName || "Unknown Merchant"}
         </h4>
-        <p className="text-xs text-muted-foreground">
-          {receipt.date ? format(new Date(receipt.date), "MMM d, yyyy") : "Date pending..."}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
+            {receipt.date ? format(new Date(receipt.date), "MMM d") : "Date pending..."}
+          </p>
+          <span className="w-1 h-1 rounded-full bg-white/10" />
+          <span className="text-[11px] font-bold text-primary uppercase tracking-widest">
+            {receipt.category || "General"}
+          </span>
+        </div>
       </div>
 
       <div className="text-right">
-        <div className="font-bold text-foreground text-lg tracking-tight font-display">
+        <div className="font-black text-foreground text-xl tracking-tighter font-display mb-1">
           ${receipt.amount?.toFixed(2) ?? "0.00"}
         </div>
-        <div className={`text-xs flex items-center justify-end gap-1 ${statusColor[receipt.status as keyof typeof statusColor]}`}>
-          <StatusIcon className="w-3 h-3" />
-          <span className="capitalize">{receipt.status}</span>
+        <div className={`text-[10px] font-black uppercase tracking-widest flex items-center justify-end gap-1 ${statusColor[receipt.status as keyof typeof statusColor]}`}>
+          <StatusIcon className="w-2.5 h-2.5" />
+          <span>{receipt.status}</span>
         </div>
       </div>
     </div>
