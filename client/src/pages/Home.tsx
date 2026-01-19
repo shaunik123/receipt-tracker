@@ -4,6 +4,7 @@ import { useUser } from "@/hooks/use-auth";
 import { ReceiptCard } from "@/components/ReceiptCard";
 import { NudgeAlert } from "@/components/NudgeAlert";
 import { BottomNav } from "@/components/BottomNav";
+import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Loader2, TrendingUp, ArrowUpRight, RefreshCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import { queryClient } from "@/lib/queryClient";
@@ -28,6 +29,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background pb-40 relative overflow-hidden">
+      <OnboardingTour />
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
