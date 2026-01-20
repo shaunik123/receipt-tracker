@@ -59,6 +59,7 @@ app.use((req, res, next) => {
   next();
 });
 
+log("Starting server setup...");
 (async () => {
   await registerRoutes(httpServer, app);
 
@@ -89,7 +90,6 @@ app.use((req, res, next) => {
     {
       port,
       host: "0.0.0.0",
-      reusePort: true,
     },
     () => {
       log(`serving on port ${port}`);
