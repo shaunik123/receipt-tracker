@@ -6,8 +6,8 @@ import { createServer } from "http";
 const app = express();
 const httpServer = createServer(app);
 
-app.get("/", (_req, res) => {
-  res.status(200).send("OK");
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
 });
 
 
