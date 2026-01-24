@@ -1,0 +1,4 @@
+[build]
+  base = "receipt-tracker"
+  command = "npm install && npm run build"
+  publish = "client/dist"
