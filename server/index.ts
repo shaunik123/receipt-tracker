@@ -2,6 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import cors from "cors";
+
+app.use(cors({
+  origin: "https://YOUR-FRONTEND.onrender.com",
+  credentials: true,
+}));
 
 const app = express();
 const httpServer = createServer(app);
