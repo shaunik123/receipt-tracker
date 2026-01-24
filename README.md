@@ -24,13 +24,12 @@ Access your receipts anytime, anywhere.
 - Frontend: React.js, Typescript, Tailwind CSS, Wouter
 - Backend: Node.js, Express.js
 - AI/OCR: OpenAI
-- Hosting: Vercel
 - Version Control: GitHub
 
 ## 📦 Installation & Setup
 
 - Run Locally
-1. git clone https://github.com/your-username/receipt-tracker.git
+1. git clone https://github.com/shaunik123/receipt-tracker.git
 2. cd receipt-tracker
 3. npm install   # or pip install -r requirements.txt
 4. npm start     # or python main.py
